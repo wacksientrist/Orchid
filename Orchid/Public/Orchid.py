@@ -18,10 +18,10 @@ class Instance:
             with open(f"Comp{self.UUID}/Instrc_r_complete.txt", "r") as complete_file:
                 if complete_file.read().strip() == "complete":
                     break
-            time.sleep(0.001)
+            #time.sleep(0.001)
     
     def Read(self):
-        time.sleep(0.001)  # Adjust sleep time as needed
+        #time.sleep(0.001)  # Adjust sleep time as needed
         
         # Read the result from Instrc_s.txt
         with open(f"Comp{self.UUID}/Instrc_s.txt", "r") as result_file:

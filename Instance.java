@@ -23,7 +23,6 @@ public class Instance implements Runnable {
                 // Check if there's a new command to process
                 String readyFlag = readStringFromFile(instrcRReadyPath);
                 if (!readyFlag.trim().equals("ready")) {
-                    Thread.sleep(1);
                     continue;
                 }
 

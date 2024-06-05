@@ -1,0 +1,11 @@
+#! /bin/bash
+
+make Install
+make Clean
+make Build
+
+cd $(BUILD_DIR)
+java -Xms512m -Xmx1024m -XX:+UseG1GC -cp ./ Main &
+
+time pypy Sample.py
+time python3 Sample2.py

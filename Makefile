@@ -22,7 +22,6 @@ build_python:
 	done
 	mkdir -p $(BUILD_DIR)/Public
 	cp -R $(PUBLIC_DIR)/ $(BUILD_DIR)/Public/
-	cp Orchid/int.sh $(BUILD_DIR)/
 	cp Orchid/Sample.py $(BUILD_DIR)/
 
 # Build target for Java
@@ -46,6 +45,14 @@ install_python:
 		brew install python3; \
 	else \
 		echo "Python3 is already installed."; \
+	fi
+
+install_pypy:
+	@if ! command -v pypy >/dev/null 2>&1; then \
+		echo "PyPy not found. Installing PyPy..."; \
+		brew install PyPy; \
+	else \
+		echo "PyPy is already installed."; \
 	fi
 
 # Run the Java application
