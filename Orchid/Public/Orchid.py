@@ -41,7 +41,12 @@ class Instance:
         elif result == "T":
             return True
         else:
-            return result
+            if result == '':
+                return result
+            elif result.find('.') != -1:
+                return float(result)
+            else:
+                return int(result)
 
 # Example usage:
 instance = Instance("123")
