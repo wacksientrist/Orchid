@@ -1,6 +1,4 @@
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.util.concurrent.TimeUnit;
 
 public class Instance implements Runnable {
     private final int UUID;
@@ -8,6 +6,12 @@ public class Instance implements Runnable {
     private final String instrcRPath;
     private final String instrcSPath;
     private final String instrcRCompletePath;
+
+    // In-memory representations of "files"
+    private String readyContent = "";
+    private String commandContent = "";
+    private String resultContent = "";
+    private String completeContent = "";
 
     public Instance(int UUID) {
         this.UUID = UUID;
@@ -21,13 +25,12 @@ public class Instance implements Runnable {
         try {
             while (true) {
                 // Check if there's a new command to process
-                String readyFlag = readStringFromFile(instrcRReadyPath);
-                if (!readyFlag.trim().equals("ready")) {
-                    continue;
+                while (!readyContent.trim().equals("ready")) {
+                    TimeUnit.MILLISECONDS.sleep(1); // Simulate polling interval
                 }
 
-                // Read the command from Instrc_r.txt
-                String command = readStringFromFile(instrcRPath).trim();
+                // Read the command from Instrc_r.txt equivalent
+                String command = commandContent.trim();
                 String[] parts = command.split(" ");
                 if (parts.length < 3) {
                     // Handle invalid command format
@@ -50,14 +53,14 @@ public class Instance implements Runnable {
                 // Process the command
                 String resultStr = processCommand(A, B, type);
 
-                // Write the result to Instrc_s.txt
-                writeStringToFile(instrcSPath, resultStr);
+                // Simulate writing the result to Instrc_s.txt
+                resultContent = resultStr;
 
-                // Signal completion of command processing
-                writeStringToFile(instrcRCompletePath, "complete");
+                // Simulate writing "complete" to Instrc_r_complete.txt
+                completeContent = "complete";
 
-                // Clear readiness for the next command
-                writeStringToFile(instrcRReadyPath, "");
+                // Simulate clearing readiness for the next command
+                readyContent = "";
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,24 +93,6 @@ public class Instance implements Runnable {
             default:
                 System.err.println("Error: Unknown command type.");
                 return "";
-        }
-    }
-
-    private String readStringFromFile(String filePath) {
-        try {
-            return new String(Files.readAllBytes(Paths.get(filePath))).trim();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    private void writeStringToFile(String filePath, String content) {
-        try {
-            Files.write(Paths.get(filePath), content.getBytes(), StandardOpenOption.CREATE,
-                    StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

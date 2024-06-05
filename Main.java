@@ -3,7 +3,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-        int numNodes = 3; // You can change this to NUM_NODES or pass as an argument
+        int numNodes = Integer.parseInt(args[0]); // You can change this to NUM_NODES or pass as an argument
 
         for (int i = 1; i <= numNodes; i++) {
             final int nodeId = i;

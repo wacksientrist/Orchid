@@ -75,5 +75,5 @@ Orchid is a distributed computing library designed to facilitate node-based comp
     - The BenchMark script times this and shuts down the nodes
     - The BenchMark script then executes an identical program that runs locally.
     - The identical program, is different in only that it runs all code directly.
-    - This Limits the number of Nodes to 1, but ive seen upto 200x faster runs, so its usually faster
+    - This Limits the number of Nodes to 1, but ive seen upto 50x faster runs, so its usually faster
 
