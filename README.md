@@ -1,5 +1,4 @@
 # Orchid
-<<<<<<< HEAD
 Orchid was my first attempt at a distributed computing software. though it turned out as more of a library.
 
 # Installation
@@ -110,4 +109,3 @@ Orchid is a library that can be imported into your Python program.
 - **M**: Multiply
 - **D**: Divide
 - **IF=**: If statement (outputs a boolean)
->>>>>>> ecff9f7 (- Optimized Instance.py)

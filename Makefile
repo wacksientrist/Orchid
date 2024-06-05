@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Build:
 	mkdir Build
 	mkdir Build/Comp1
@@ -46,4 +45,3 @@ Install:
 	else \
 		echo "Python3 is already installed."; \
 	fi
->>>>>>> ecff9f7 (- Optimized Instance.py)
