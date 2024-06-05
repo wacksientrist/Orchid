@@ -23,6 +23,7 @@ build_python:
 	mkdir -p $(BUILD_DIR)/Public
 	cp -R $(PUBLIC_DIR)/ $(BUILD_DIR)/Public/
 	cp Orchid/Sample.py $(BUILD_DIR)/
+	cp Orchid/Sample2.py $(BUILD_DIR)/
 
 # Build target for Java
 build_java:

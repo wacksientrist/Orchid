@@ -2,10 +2,14 @@
 
 make Install
 make Clean
-make Build
+make Build NUM_NODES=2
 
-cd $(BUILD_DIR)
+cd Build
 java -Xms512m -Xmx1024m -XX:+UseG1GC -cp ./ Main &
+time python3 Sample.py
+killall kill java
 
-time pypy Sample.py
 time python3 Sample2.py
+
+echo $A
+echo $B
