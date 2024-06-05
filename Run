@@ -1,0 +1,13 @@
+#! /bin/bash
+
+make Install
+make Clean
+make Build NUM_NODES=2
+
+python3 Compile.py
+mv main.py ./Build/Program.py
+
+cd Build
+java -Xms512m -Xmx20484m -XX:+UseG1GC -cp ./ Main 2 &
+time python3 Program.py
+killall kill java
