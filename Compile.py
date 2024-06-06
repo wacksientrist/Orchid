@@ -7,7 +7,7 @@ def replace_operations_with_preceding_process(file_path, num_instances):
         lines = file.readlines()
     
     # Add the import and initialization lines at the start
-    header = ["from Public.Orchid import Instance\n"]
+    header = ["import sys\nimport os\nsys.path.insert(0, os.getcwd()+'/Public')\nfrom Orchid import Instance\n"]
     instances = set()
 
     # Define a function to replace each operation

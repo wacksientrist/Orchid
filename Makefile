@@ -43,7 +43,7 @@ install_brew:
 install_python:
 	@if ! command -v python3 >/dev/null 2>&1; then \
 		echo "Python3 not found. Installing Python3..."; \
-		brew install python3; \
+		brew install python3; export PATH="/Users/jaco/Desktop/Code/Orchid-Java/Build/Public/Orchid.py:$PATH" \
 	else \
 		echo "Python3 is already installed."; \
 	fi
