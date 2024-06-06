@@ -1,37 +1,38 @@
-import io
+import socket
 
 class Instance:
-    def __init__(self, UUID):
+    def __init__(self, UUID, host):
         self.UUID = UUID
-        self.ready_file = io.BytesIO()
-        self.command_file = io.BytesIO()
-        self.complete_file = io.BytesIO()
-        self.result_file = io.BytesIO()
-    
+        self.host = host
+        self.port = int(UUID) + 8000
+        self.client_socket = None
+
+    def connect(self):
+        if not self.client_socket:
+            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client_socket.connect((self.host, self.port))
+
     def Process(self, A, B, Type):
-        # Signal readiness for a new command
-        self.ready_file.seek(0)
-        self.ready_file.write(b"ready")
-        
-        # Write the command A, B, Type to Instrc_r.txt
-        self.command_file.seek(0)
-        self.command_file.write(str(str(A)+" "+str(B)+" "+Type).encode())
-        
-        # Simulate command processing completion
-        self.complete_file.seek(0)
-        self.complete_file.write(b"complete")
-    
-    def Read(self):
-        # Simulate reading the result from Instrc_s.txt
-        self.result_file.seek(0)
-        result = self.result_file.read().strip().decode()
-        
-        # Clear readiness for the next command
-        self.ready_file.seek(0)
-        self.ready_file.write(b"")
-        
-        # Return the processed result
-        if result == "F":
+        command = str(A) + " " + str(B) + " " + Type
+        print("Instance " + str(self.UUID) + ": Sending command '" + command + "' to " + self.host + ":" + str(self.port))
+        try:
+            self.connect()
+            self.client_socket.sendall(command.encode())
+            print("Instance " + str(self.UUID) + ": Command sent, waiting for response")
+            result = self.client_socket.recv(1024).decode().strip()
+            print("Instance " + str(self.UUID) + ": Received result '" + result + "'")
+            return self.Read(result)
+        except Exception as e:
+            print("Instance " + str(self.UUID) + ": Error " + str(e))
+            self.client_socket = None  # Reset the socket to reconnect on the next command
+        finally:
+            if self.client_socket:
+                self.client_socket.close()
+                self.client_socket = None
+            print("Instance " + str(self.UUID) + ": Connection closed")
+
+    def Read(self, result):
+        if result == "":
             return False
         elif result == "T":
             return True
@@ -43,3 +44,8 @@ class Instance:
                     return int(result)
             except ValueError:
                 return result
+
+# Example usage
+if __name__ == "__main__":
+    instance = Instance(1, "localhost")
+    instance.Process(10, 20, "+")

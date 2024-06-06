@@ -1,6 +1,13 @@
 import re
 import random
 
+TYPES = {
+    '*': 'M',
+    '+': 'A',
+    '-': 'S',
+    '/': 'D'
+}
+
 def replace_operations_with_preceding_process(file_path, num_instances):
     # Read the contents of the file
     with open(file_path, 'r') as file:
@@ -34,8 +41,7 @@ def replace_operations_with_preceding_process(file_path, num_instances):
 
                 operation_type = re.findall(r'[\+\-\*/]', operation)[0]
 
-                processed_line += f"{indent.replace("\t", "")}{instance}.Process({operator1.strip()}, {operator2.strip()}, '{operation_type}')\n"
-                processed_line += f"{indent}{variable.strip()} = {instance}.Read()"
+                processed_line += f"{indent}{variable.strip()} = "+f"{indent.replace("\t", "").replace("\t", "")}{instance}.Process({operator1.strip()}, {operator2.strip()}, '{TYPES[operation_type]}')\n"
             else:
                 processed_line += segment
 
@@ -49,7 +55,7 @@ def replace_operations_with_preceding_process(file_path, num_instances):
 
     # Add instance initialization to the header
     for instance_number in sorted(instances):
-        header.append(f"C{instance_number} = Instance('{instance_number}')\n")
+        header.append(f"C{instance_number} = Instance('{instance_number}', \"localhost\")\n")
 
     # Write the modified content back to the file
     with open(file_path, 'w') as file:

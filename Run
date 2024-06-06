@@ -9,5 +9,5 @@ mv main.py ./Build/Program.py
 
 cd Build
 java -Xms512m -Xmx2048m -XX:+UseG1GC -cp ./ Main 3 &
-time python3 Program.py
+time pypy Program.py
 killall kill java
