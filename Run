@@ -1,0 +1,15 @@
+#! /bin/bash
+
+make Install
+make Clean
+make Build
+
+killall kill java
+
+python3 Compile.py
+mv main.py ./Build/Program.py
+
+cd Build
+pypy Program.py
+
+killall kill java

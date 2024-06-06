@@ -1,0 +1,11 @@
+#! /bin/bash
+
+make Install
+make Clean
+make Build NUM_NODES=2
+
+cd Build
+time pypy Program.py 2 localhost Program.py
+killall kill java
+
+time python3 Sample2.py
