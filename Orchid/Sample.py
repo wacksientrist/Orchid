@@ -1,13 +1,10 @@
-from Public.Orchid import Instance
-
-C1 = Instance("1")
-C2 = Instance("2")
-
-for i in range(100000000):
-	
-	C1.Process(i, 3, "M")
-	C2.Process(C1.Read(), 9, "A")
-
-	#print(i)
-	C1.Read()
-	C2.Read()
+import sys
+import os
+sys.path.insert(0, os.getcwd()+'/Public')
+from Orchid import Instance
+C1 = Instance('1')
+for i in range(10000000):
+	C1.Process(i, 3, '*')
+	A = C1.Read()
+	C1.Process(A, 5, '+')
+	B = C1.Read()
