@@ -1,30 +1,61 @@
 # Number of nodes to build
 NUM_NODES ?= 3
 
-# Build target
-Build:
-	mkdir -p Build
-	$(eval NODES := $(shell seq 1 $(NUM_NODES)))
-	for node in $(NODES); do \
-		mkdir -p Build/Comp$$node; \
-		cp -R Orchid/Comp/ Build/Comp$$node; \
-	done
-	mkdir -p Build/Public
-	cp -R Orchid/Public/ Build/Public/
-	cp Orchid/int.sh Build/
-	cp Orchid/Sample.py Build/
+# Directories
+BUILD_DIR := Build
+PUBLIC_DIR := Orchid/Public
+COMP_DIR := Orchid/Comp
 
-# Install target
-Install:
+# Java sources
+JAVA_SRC := Main.java Instance.java
+
+# Build target for Python and Java
+Build: build_python build_java
+
+# Build target for Python
+build_python:
+	mkdir -p $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR)/Public
+	cp -R $(PUBLIC_DIR)/ $(BUILD_DIR)/Public/
+	cp Orchid/Sample.py $(BUILD_DIR)/
+
+# Build target for Java
+build_java:
+	javac -d $(BUILD_DIR) $(JAVA_SRC)
+
+# Install target for dependencies
+Install: install_brew install_python
+
+install_brew:
 	@if ! command -v brew >/dev/null 2>&1; then \
 		echo "Homebrew not found. Installing Homebrew..."; \
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
 	else \
 		echo "Homebrew is already installed."; \
 	fi
+
+install_python:
 	@if ! command -v python3 >/dev/null 2>&1; then \
 		echo "Python3 not found. Installing Python3..."; \
-		brew install python3; \
+		brew install python3; export PATH="/Users/jaco/Desktop/Code/Orchid-Java/Build/Public/Orchid.py:$PATH" \
 	else \
 		echo "Python3 is already installed."; \
 	fi
+
+install_pypy:
+	@if ! command -v pypy >/dev/null 2>&1; then \
+		echo "PyPy not found. Installing PyPy..."; \
+		brew install PyPy; \
+	else \
+		echo "PyPy is already installed."; \
+	fi
+
+# Run the Java application
+
+RunJava:
+
+	cd $(BUILD_DIR); java -Xms512m -Xmx1024m -XX:+UseG1GC -cp ./ Main
+
+# Clean the build directory
+Clean:
+	rm -rf $(BUILD_DIR)
