@@ -4,10 +4,12 @@ make Install
 make Clean
 make Build NUM_NODES=3
 
+killall kill java
+
 python3 Compile.py
 mv main.py ./Build/Program.py
 
 cd Build
-java -Xms512m -Xmx2048m -XX:+UseG1GC -cp ./ Main 3 &
 time pypy Program.py
+
 killall kill java

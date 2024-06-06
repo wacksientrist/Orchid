@@ -19,10 +19,10 @@ public class Instance implements Runnable {
                      BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                      PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
-                    System.out.println("Instance " + port + ": Client connected");
+                    //System.out.println("Instance " + port + ": Client connected");
 
                     String command = in.readLine();
-                    System.out.println("Instance " + port + ": Received command '" + command + "'");
+                    //System.out.println("Instance " + port + ": Received command '" + command + "'");
                     if (command != null) {
                         String[] parts = command.split(" ");
                         if (parts.length < 3) {
@@ -35,7 +35,7 @@ public class Instance implements Runnable {
                         String type = parts[2];
 
                         String result = processCommand(A, B, type);
-                        System.out.println("Instance " + port + ": Sending result '" + result + "'");
+                        // System.out.println("Instance " + port + ": Sending result '" + result + "'");
                         out.println(result);
                     }
                 } catch (IOException | NumberFormatException e) {
@@ -78,3 +78,4 @@ public class Instance implements Runnable {
         new Thread(instance).start();
     }
 }
+

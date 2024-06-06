@@ -5,7 +5,6 @@ make Clean
 make Build NUM_NODES=2
 
 cd Build
-java -Xms512m -Xmx20484m -XX:+UseG1GC -cp ./ Main 2 &
 time pypy Program.py 2 localhost Program.py
 killall kill java
 

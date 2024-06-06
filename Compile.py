@@ -41,7 +41,7 @@ def replace_operations_with_preceding_process(file_path, num_instances):
 
                 operation_type = re.findall(r'[\+\-\*/]', operation)[0]
 
-                processed_line += f"{indent}{variable.strip()} = "+f"{indent.replace("\t", "").replace("\t", "")}{instance}.Process({operator1.strip()}, {operator2.strip()}, '{TYPES[operation_type]}')\n"
+                processed_line += f"{indent}{variable.strip()} = "+f"{indent.replace("\t", "").replace("\t", "")}{instance}.Process({operator1.strip()}, {operator2.strip()}, '{operation_type}')\n"
             else:
                 processed_line += segment
 
